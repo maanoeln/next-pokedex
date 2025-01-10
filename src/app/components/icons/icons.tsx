@@ -7,7 +7,7 @@ interface IIcons
     'strokeLinecap' | 'strokeLinejoin' | 'strokeWidth' | 'fill' | 'stroke'
   > {
   name: string;
-  className: string;
+  className?: string;
   viewbox?: string;
   width?: string;
   height?: string;

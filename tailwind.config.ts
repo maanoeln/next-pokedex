@@ -37,6 +37,11 @@ export default {
       primary: '#8AB4F7',
       secondary: '#5F6367',
     },
+    extend: {
+      gridTemplateRows: {
+        '2fr': 'repeat(3, minmax(180px, 1fr))',
+      },
+    },
     // colors: {
     //   bg: {
     //     light: 'white',
