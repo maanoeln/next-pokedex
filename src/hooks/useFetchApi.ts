@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import api from '../services/api';
 import { AxiosError } from 'axios';
 
-export function useFetch<T>(endpoint: string) {
+export function useFetchApi<T>(endpoint: string) {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
