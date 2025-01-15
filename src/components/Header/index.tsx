@@ -1,6 +1,4 @@
-'use client';
-
-import Icons from '@/app/components/icons/icons';
+import Icons from '@/components/icons/icons';
 
 // import Icons from '@/components/Icons';
 // import ToggleTheme from '@/components/ThemeToggle';
@@ -14,16 +12,16 @@ function Header() {
             className='fill-secondary dark:fill-primary'
             width='125px'
             height='45px'
-            viewbox='0 0 125 45'
+            viewBox='0 0 125 45'
             name='pokemon'
           />
         </div>
         <div>
           <Icons
             className='fill-secondary dark:fill-primary'
-            width='32px'
-            height='33px'
-            viewbox='0 0 32 33'
+            width='24px'
+            height='24px'
+            viewBox='0 0 32 33'
             name='sun'
           />
         </div>

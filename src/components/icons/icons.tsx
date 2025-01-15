@@ -1,5 +1,5 @@
 import icons from '@/assets/icons';
-import { SVGProps } from 'react';
+import { ChangeEvent, SVGProps } from 'react';
 
 interface IIcons
   extends Pick<
@@ -8,34 +8,37 @@ interface IIcons
   > {
   name: string;
   className?: string;
-  viewbox?: string;
+  viewBox?: string;
   width?: string;
   height?: string;
+  onClick?(_event: ChangeEvent<unknown>, value: number | null): void;
 }
 
 function Icons({
   name,
-  className,
-  viewbox,
-  width,
-  height,
-  fill,
+  className = '',
+  viewBox = '0 0 16 16',
+  width = '24px',
+  height = '24px',
+  fill = 'currentColor',
   stroke,
   strokeWidth,
+  onClick,
   ...props
 }: IIcons) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      viewBox={viewbox || '0 0 16 16'}
-      width={width || '24px'}
-      height={height || '24px'}
+      viewBox={viewBox}
+      width={width}
+      height={height}
       className={className}
       fill={fill}
       strokeWidth={strokeWidth}
       stroke={stroke}
+      onClick={onClick}
     >
-      <path d={icons[name]} {...props} />
+      <path d={icons[name] || ''} {...props} />
     </svg>
   );
 }
