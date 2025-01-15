@@ -1,41 +1,68 @@
-'use client';
-
-import { useState, useEffect } from 'react';
+import {
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+} from 'react';
 import api from '../services/api';
 import { AxiosError } from 'axios';
 
-export function useFetchApi<T>(endpoint: string) {
-  const [data, setData] = useState<T | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+interface IProps<T> {
+  params?: { [key: string]: string };
+  url: string;
+  initialData?: T;
+}
+
+interface IUseFetchReturn<T> {
+  isLoading: boolean;
+  data: T;
+  error: boolean;
+  setData: Dispatch<SetStateAction<T>>;
+  refetch: () => void;
+}
+
+export function useFetchApi<T>({
+  url,
+  params,
+  initialData = {} as T,
+}: IProps<T>): IUseFetchReturn<T> {
+  const [data, setData] = useState<T>(initialData);
+  const [error, setError] = useState<boolean>(false);
+  const [refetchController, setRefetchController] = useState<number>(0);
+  const [isLoading, setLoading] = useState<boolean>(true);
+
+  const getFn = () => (params ? api.get<T>(url, { params }) : api.get<T>(url));
+
+  const refetch = useCallback(
+    () => setRefetchController((current) => current + 1),
+    []
+  );
 
   useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      setError(null);
+    const handleGet = async () => {
+      if (url) {
+        try {
+          const response = await getFn();
+          setData(response.data);
+        } catch (error: unknown) {
+          const axiosError = error as AxiosError;
 
-      try {
-        const response = await api.get<T>(endpoint);
-        setData(response.data);
-      } catch (error: unknown) {
-        const axiosError = error as AxiosError;
-
-        if (axiosError.response) {
-          setError(
-            `Error ${axiosError.response.status}: ${axiosError.response.data}`
-          );
-        } else if (axiosError.request) {
-          setError('No response from the server. Please try again later.');
-        } else {
-          setError(axiosError.message);
+          if (axiosError.response) {
+            setError(true);
+          } else if (axiosError.request) {
+            setError(true);
+          } else {
+            setError(true);
+          }
+        } finally {
+          setLoading(false);
         }
-      } finally {
-        setLoading(false);
       }
-    }
+    };
 
-    fetchData();
-  }, [endpoint]);
+    handleGet();
+  }, [url, refetchController]);
 
-  return { data, error, loading };
+  return { data, error, isLoading, refetch, setData };
 }
