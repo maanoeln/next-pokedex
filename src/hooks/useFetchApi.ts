@@ -40,11 +40,16 @@ export function useFetchApi<T>({
   );
 
   useEffect(() => {
+    const abortController = new AbortController();
+    const { signal } = abortController;
+
     const handleGet = async () => {
-      if (url) {
+      if (!!url) {
         try {
-          const response = await getFn();
-          setData(response.data);
+          const { data: fetchedData } = await getFn();
+          if (!signal.aborted) {
+            setData(fetchedData);
+          }
         } catch (error: unknown) {
           const axiosError = error as AxiosError;
 

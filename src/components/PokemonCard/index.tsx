@@ -19,9 +19,8 @@ function PokemonCard({ pokemon, id }: IPokemonCard) {
     setMeasures(100);
   };
 
-  console.log(getImageUrl(id));
   return (
-    <div className='flex flex-col gap-3 p-3 flex-1 bg-secondary-dark rounded-lg'>
+    <div className='flex flex-col gap-3 p-3 flex-1 bg-secondary-dark rounded-lg h-max'>
       <div className='flex justify-between items-center gap-2'>
         <span className='capitalize text-xl font-bold text-secondary-light text-center flex-1 text-ellipsis overflow-hidden whitespace-nowrap'>
           {pokemon.name}
@@ -41,27 +40,25 @@ function PokemonCard({ pokemon, id }: IPokemonCard) {
         </Link>
       </div>
       <div className='flex justify-center h-full'>
-        <div className='relative flex justify-center items-center h-[120px] w-[120px]'>
-          {isError ? (
-            <Icons
-              className='fill-secondary'
-              name='noImage'
-              viewBox='0 0 32 32'
-              width='90px'
-              height='90px'
-            />
-          ) : (
-            <Image
-              className='justify-self-center static z-20 fill-secondary'
-              src={getImageUrl(id)}
-              onError={handleError}
-              alt={pokemon.name}
-              width={measures}
-              height={measures}
-              priority
-            />
-          )}
-        </div>
+        {isError ? (
+          <Icons
+            className='fill-secondary'
+            name='noImage'
+            viewBox='0 0 32 32'
+            width='150px'
+            height='150px'
+          />
+        ) : (
+          <Image
+            className='justify-self-center static z-20 fill-secondary'
+            src={getImageUrl(id)}
+            onError={handleError}
+            alt={pokemon.name}
+            width={measures}
+            height={measures}
+            priority
+          />
+        )}
       </div>
     </div>
   );

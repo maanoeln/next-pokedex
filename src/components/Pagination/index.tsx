@@ -1,11 +1,10 @@
 import Icons from '@/components/icons/icons';
 import usePagination from '@/hooks/usePagination';
-import { ChangeEvent } from 'react';
 
 interface IProps {
   totalCount: number;
   currentPage: number;
-  onPageChange(_event: ChangeEvent<unknown>, value: number | null): void;
+  onPageChange(value: number): void;
 }
 
 const DOTS = '...';
@@ -22,7 +21,7 @@ function Pagination({ totalCount, currentPage, onPageChange }: IProps) {
         height='16px'
         name='goBack'
         onClick={
-          currentPage === 1 ? () => {} : (e) => onPageChange(e, currentPage - 1)
+          currentPage === 1 ? () => {} : () => onPageChange(currentPage - 1)
         }
       />
 
@@ -36,7 +35,7 @@ function Pagination({ totalCount, currentPage, onPageChange }: IProps) {
               currentPage === item ? 'text-primary-main ' : ''
             } hover:text-primary-light cursor-pointer`}
             key={item}
-            onClick={(e) => onPageChange(e, +item)}
+            onClick={() => onPageChange(+item)}
           >
             {item}
           </span>
@@ -51,7 +50,7 @@ function Pagination({ totalCount, currentPage, onPageChange }: IProps) {
         onClick={
           currentPage === lastPage
             ? () => {}
-            : (e) => onPageChange(e, currentPage + 1)
+            : () => onPageChange(currentPage + 1)
         }
       />
     </div>

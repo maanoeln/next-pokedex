@@ -1,17 +1,22 @@
 import icons from '@/assets/icons';
-import { ChangeEvent, SVGProps } from 'react';
+import { SVGProps } from 'react';
 
 interface IIcons
   extends Pick<
     SVGProps<SVGElement>,
-    'strokeLinecap' | 'strokeLinejoin' | 'strokeWidth' | 'fill' | 'stroke'
+    | 'strokeLinecap'
+    | 'strokeLinejoin'
+    | 'strokeWidth'
+    | 'fill'
+    | 'stroke'
+    | 'fillRule'
   > {
   name: string;
   className?: string;
   viewBox?: string;
   width?: string;
   height?: string;
-  onClick?(_event: ChangeEvent<unknown>, value: number | null): void;
+  onClick?(): void;
 }
 
 function Icons({

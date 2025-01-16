@@ -15,6 +15,7 @@ interface Types {
 }
 
 export interface PokemonId extends Pokemon {
+  id: number;
   types: Types[];
 }
 

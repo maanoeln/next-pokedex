@@ -1,7 +1,9 @@
-import Icons from '@/components/icons/icons';
+'use client';
 
-// import Icons from '@/components/Icons';
-// import ToggleTheme from '@/components/ThemeToggle';
+import Icons from '@/components/icons/icons';
+import LanguageMenu from '@/components/LanguageMenu';
+import SearchBar from '@/components/SearchBar';
+import ToggleTheme from '@/components/ToggleTheme';
 
 function Header() {
   return (
@@ -16,16 +18,14 @@ function Header() {
             name='pokemon'
           />
         </div>
-        <div>
-          <Icons
-            className='fill-secondary dark:fill-primary'
-            width='24px'
-            height='24px'
-            viewBox='0 0 32 33'
-            name='sun'
-          />
+
+        <div className='flex gap-4 items-center'>
+          <SearchBar />
+
+          <ToggleTheme />
+
+          <LanguageMenu />
         </div>
-        {/* <ToggleTheme /> */}
       </div>
     </header>
   );
