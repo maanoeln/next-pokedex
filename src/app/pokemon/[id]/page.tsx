@@ -6,11 +6,17 @@ export async function generateStaticParams() {
   const data = await response.json();
 
   return data.results.map((pokemon: { url: string }) => {
-    const id = pokemon.url.split('/').filter(Boolean).pop(); // Extract ID from URL
-    return { id };
+    const id = pokemon.url.split('/').filter(Boolean).pop(); //
+    return { params: { id } };
   });
 }
 
-export default function PokemonPage({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default function PokemonPage({ params }: PageProps) {
   return <PokemonDetailsClient id={params.id} />;
 }
