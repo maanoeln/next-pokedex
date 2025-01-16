@@ -1,3 +1,5 @@
+'use client';
+
 import { ThemeContext } from '@/context/themeContext';
 import { useEffect, useState } from 'react';
 
@@ -5,7 +7,7 @@ type Theme = 'light' | 'dark';
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [theme, setTheme] = useState<Theme>(() => {
-    if (window) {
+    if (typeof window !== 'undefined') {
       return window.matchMedia('(prefers-color-scheme: dark)').matches
         ? 'dark'
         : 'light';
