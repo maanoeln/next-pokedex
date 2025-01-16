@@ -1,7 +1,15 @@
-const getImageUrl = (index: number) => {
-  const id = index + 1 < 10 ? `00${index + 1}` : `0${index + 1}`;
+const getImageUrl = (id: number): string => {
+  const parseID = () => {
+    if (id < 10) {
+      return `00${id}`;
+    } else if (id >= 10 && id < 100) {
+      return `0${id}`;
+    } else if (id > 99) {
+      return id;
+    }
+  };
 
-  return `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id}.png`;
+  return `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${parseID()}.png`;
 };
 
 export default getImageUrl;
