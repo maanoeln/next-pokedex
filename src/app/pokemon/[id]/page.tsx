@@ -12,7 +12,7 @@ function PokemonDetails() {
   const { id } = useParams<{ id: string }>();
   const { data } = useFetchApi<PokemonId>({
     url: `/pokemon/${id}`,
-    initialData: { name: '', url: '', sprites: '', types: [] },
+    initialData: { id: 0, name: '', url: '', sprites: '', types: [] },
   });
 
   const light = typesLight[data.types[0]?.type.name];
