@@ -6,7 +6,6 @@ const nextConfig: NextConfig = {
   output: 'export',
   images: {
     domains: ['assets.pokemon.com'],
-    unoptimized: true,
   },
 };
 
