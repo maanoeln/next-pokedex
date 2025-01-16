@@ -8,6 +8,18 @@ import { PokemonId } from '@/interfaces/pokemons';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 
+export async function generateStaticParams() {
+  // Fetch a list of Pokémon IDs (replace with your API or static data)
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon');
+  const data = await response.json();
+
+  // Map the Pokémon data to an array of params
+  return data.results.map((pokemon: { url: string }) => {
+    const id = pokemon.url.split('/').filter(Boolean).pop(); // Extract ID from URL
+    return { id };
+  });
+}
+
 function PokemonDetails() {
   const { id } = useParams<{ id: string }>();
   const { data } = useFetchApi<PokemonId>({
