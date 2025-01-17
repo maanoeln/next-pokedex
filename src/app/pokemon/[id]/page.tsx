@@ -1,8 +1,9 @@
 // 'use client';
 
 import { typesLight } from '@/helpers/typesColors';
-import { PokemonId } from '@/interfaces/pokemons';
+import { PokemonId, PokemonResponse } from '@/interfaces/pokemons';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 
 interface PokemonDetailsClientProps {
   params: Promise<{ id: string }>;
@@ -25,6 +26,11 @@ async function PokemonDetailsClient({ params }: PokemonDetailsClientProps) {
   const data = await fetchPokemon(id);
 
   const light = typesLight[data.types[0]?.type.name];
+
+  if (!data) {
+    // Redirect to a 404 page if the Pokémon doesn't exist
+    notFound();
+  }
 
   return (
     <div
@@ -53,6 +59,34 @@ async function PokemonDetailsClient({ params }: PokemonDetailsClientProps) {
       <div>Info here</div>
     </div>
   );
+}
+
+export const dynamic = 'force-static';
+
+export async function generateStaticParams() {
+  const baseUrl = 'https://pokeapi.co/api/v2/pokemon';
+  const params: { id: string }[] = [];
+  let nextUrl: string | null = baseUrl;
+
+  // Loop through all paginated results
+  while (nextUrl) {
+    const res = await fetch(nextUrl);
+    if (!res.ok) {
+      throw new Error('Failed to fetch Pokémon list');
+    }
+
+    const data: PokemonResponse = await res.json();
+    data.results.forEach((pokemon: { url: string }) => {
+      const id = pokemon.url.split('/').filter(Boolean).pop(); // Extract the ID from the URL
+      if (id) {
+        params.push({ id });
+      }
+    });
+
+    nextUrl = data.next; // Continue to the next page
+  }
+
+  return params;
 }
 
 export default PokemonDetailsClient;
