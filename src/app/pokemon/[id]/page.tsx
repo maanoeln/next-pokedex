@@ -1,5 +1,4 @@
-// 'use client';
-
+import getImageUrl from '@/helpers/getImageUrl';
 import { typesLight } from '@/helpers/typesColors';
 import { PokemonId, PokemonResponse } from '@/interfaces/pokemons';
 import Image from 'next/image';
@@ -11,7 +10,7 @@ interface PokemonDetailsClientProps {
 
 async function fetchPokemon(id: string): Promise<PokemonId> {
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, {
-    cache: 'no-store', // Ensures the data is fetched dynamically on every request
+    cache: 'no-store',
   });
 
   if (!res.ok) {
@@ -28,7 +27,6 @@ async function PokemonDetailsClient({ params }: PokemonDetailsClientProps) {
   const light = typesLight[data.types[0]?.type.name];
 
   if (!data) {
-    // Redirect to a 404 page if the Pokémon doesn't exist
     notFound();
   }
 
@@ -48,7 +46,7 @@ async function PokemonDetailsClient({ params }: PokemonDetailsClientProps) {
           ></div>
           <Image
             className='z-20 translate'
-            src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id}.png`}
+            src={getImageUrl(+id)}
             width={400}
             height={400}
             alt={data.name}
