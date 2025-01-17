@@ -2,9 +2,7 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
-  output: 'export',
-  basePath: '/next-pokedex',
-  assetPrefix: '/next-pokedex/',
+  basePath: '/next-pokemon',
   images: {
     domains: ['assets.pokemon.com'],
   },

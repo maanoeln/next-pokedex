@@ -1,5 +1,6 @@
 import Icons from '@/components/icons/icons';
 import getImageUrl from '@/helpers/getImageUrl';
+import { useFetchApi } from '@/hooks/useFetchApi';
 import { Pokemon } from '@/interfaces/pokemons';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,11 +13,14 @@ interface IPokemonCard {
 
 function PokemonCard({ pokemon, id }: IPokemonCard) {
   const [isError, setIsError] = useState<string | boolean>();
-  const [measures, setMeasures] = useState<number>(150);
+  const { data } = useFetchApi({
+    url: `pokemon/${pokemon.name}`,
+    initialData: { name: '', sprites: { front_default: '' } },
+  });
+  console.log(data);
 
   const handleError = () => {
     setIsError(true);
-    setMeasures(100);
   };
 
   return (
@@ -54,9 +58,10 @@ function PokemonCard({ pokemon, id }: IPokemonCard) {
             src={getImageUrl(id)}
             onError={handleError}
             alt={pokemon.name}
-            width={measures}
-            height={measures}
-            priority
+            width={150}
+            height={150}
+            // unoptimized
+            // quality={100}
           />
         )}
       </div>
