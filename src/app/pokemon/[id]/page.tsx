@@ -66,7 +66,6 @@ export async function generateStaticParams() {
   const params: { id: string }[] = [];
   let nextUrl: string | null = baseUrl;
 
-  // Loop through all paginated results
   while (nextUrl) {
     const res = await fetch(nextUrl);
     if (!res.ok) {
@@ -75,13 +74,13 @@ export async function generateStaticParams() {
 
     const data: PokemonResponse = await res.json();
     data.results.forEach((pokemon: { url: string }) => {
-      const id = pokemon.url.split('/').filter(Boolean).pop(); // Extract the ID from the URL
+      const id = pokemon.url.split('/').filter(Boolean).pop();
       if (id) {
         params.push({ id });
       }
     });
 
-    nextUrl = data.next; // Continue to the next page
+    nextUrl = data.next;
   }
 
   return params;
